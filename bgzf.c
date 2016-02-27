@@ -1112,7 +1112,9 @@ int bgzf_useek(BGZF *fp, long uoffset, int where)
     if ( uoffset - fp->idx->offs[i].uaddr > 0 )
     {
         fp->block_offset = uoffset - fp->idx->offs[i].uaddr;
-        assert( fp->block_offset <= fp->block_length );     // todo: skipped, unindexed, blocks
+        // assert( fp->block_offset <= fp->block_length );     // todo: skipped, unindexed, blocks
+        if(fp->block_offset > fp->block_length )
+            return -1;
     }
     fp->uncompressed_address = uoffset;
     return 0;
@@ -1122,4 +1124,3 @@ long bgzf_utell(BGZF *fp)
 {
     return fp->uncompressed_address;    // currently maintained only when reading
 }
-
